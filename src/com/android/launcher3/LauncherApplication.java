@@ -25,9 +25,6 @@ import android.content.IntentFilter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.android.launcher3.stats.LauncherStats;
-import com.android.launcher3.stats.internal.service.AggregationIntentService;
-
 public class LauncherApplication extends Application {
     public static boolean LAUNCHER_SHOW_UNREAD_NUMBER;
     public static boolean LAUNCHER_SHORTCUT_ENABLED;
@@ -40,17 +37,6 @@ public class LauncherApplication extends Application {
             "org.codeaurora.carrier.ACTION_TELEPHONY_SEND_STK_TITLE";
     private final String STK_APP_NAME = "StkTitle";
     private final String STK_ACTIVITY_NAME = "StkActivity";
-
-    private static LauncherStats sLauncherStats = null;
-
-    /**
-     * Get the reference handle for LauncherStats commands
-     *
-     * @return {@link LauncherStats}
-     */
-    public static LauncherStats getLauncherStats() {
-        return sLauncherStats;
-    }
 
     @Override
     public void onCreate() {
@@ -66,8 +52,6 @@ public class LauncherApplication extends Application {
         if (getResources().getBoolean(R.bool.config_launcher_stkAppRename)) {
             registerAppNameChangeReceiver();
         }
-        sLauncherStats = LauncherStats.getInstance(this);
-        AggregationIntentService.scheduleService(this);
     }
 
     private void registerAppNameChangeReceiver() {

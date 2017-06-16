@@ -1529,8 +1529,6 @@ public class Launcher extends Activity
         Intent settings;
         settings = new Intent(android.provider.Settings.ACTION_SETTINGS);
         startActivity(settings);
-        LauncherApplication.getLauncherStats().sendSettingsOpenedEvent(
-                LauncherStats.ORIGIN_TREB_LONGPRESS);
         if (mWorkspace.isInOverviewMode()) {
             mWorkspace.exitOverviewMode(false);
         }
@@ -2232,7 +2230,6 @@ public class Launcher extends Activity
         launcherInfo.hostView = null;
         AppWidgetProviderInfo info = mAppWidgetManager.getAppWidgetInfo(launcherInfo.appWidgetId);
         String packageName = info.providerInfo.packageName;
-        LauncherApplication.getLauncherStats().sendWidgetRemoveEvent(packageName);
     }
 
     void showOutOfSpaceMessage(boolean isHotseatLayout) {
@@ -2696,7 +2693,6 @@ public class Launcher extends Activity
                     appWidgetInfo);
             mWorkspace.removeExtraEmptyScreenDelayed(true, onComplete, delay, false);
             String packageName = appWidgetInfo.providerInfo.packageName;
-            LauncherApplication.getLauncherStats().sendWidgetAddEvent(packageName);
         }
     }
 
@@ -2997,13 +2993,6 @@ public class Launcher extends Activity
         } else if (tag instanceof AppInfo) {
             AppInfo info = (AppInfo) tag;
             startAppShortcutOrInfoActivity(v);
-            LauncherApplication.getLauncherStats().sendAppLaunchEvent(
-                    LauncherStats.ORIGIN_APPDRAWER, info.componentName.getPackageName());
-            String packageName = info.getIntent().getComponent().getPackageName();
-            if (LauncherStats.SETTINGS_PACKAGE_NAME.equals(packageName)) {
-                LauncherApplication.getLauncherStats()
-                        .sendSettingsOpenedEvent(LauncherStats.ORIGIN_APPDRAWER);
-            }
         } else if (tag instanceof LauncherAppWidgetInfo) {
             if (v instanceof PendingAppWidgetHostView) {
                 onClickPendingWidget((PendingAppWidgetHostView) v);
@@ -3152,17 +3141,6 @@ public class Launcher extends Activity
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onClickAppShortcut(v);
-        }
-
-        final ComponentName componentName = intent.getComponent();
-        if (componentName != null) {
-            String packageName = componentName.getPackageName();
-            LauncherApplication.getLauncherStats().sendAppLaunchEvent(
-                    LauncherStats.ORIGIN_HOMESCREEN, packageName);
-            if (LauncherStats.SETTINGS_PACKAGE_NAME.equals(packageName)) {
-                LauncherApplication.getLauncherStats().sendSettingsOpenedEvent(
-                        LauncherStats.ORIGIN_HOMESCREEN);
-            }
         }
     }
 
