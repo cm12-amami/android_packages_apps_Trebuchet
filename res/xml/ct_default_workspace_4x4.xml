@@ -165,8 +165,8 @@
         launcher:x="3"
         launcher:y="0" />
     <favorite
-        launcher:packageName="com.android.browser"
-        launcher:className="com.android.browser.BrowserActivity"
+        launcher:packageName="com.stoutner.privacybrowser.standard"
+        launcher:className="com.stoutner.privacybrowser.activities.MainWebViewActivity"
         launcher:container="-101"
         launcher:screen="4"
         launcher:x="4"
